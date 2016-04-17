@@ -19,3 +19,5 @@ Encoding: UTF-8
 Suggests: testthat,
     knitr
 VignetteBuilder: knitr
+URL: https://github.com/pichaio/thainltk
+BugReports: https://github.com/pichaio/thainltk/issues

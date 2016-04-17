@@ -78,6 +78,8 @@ if (nchar(filePath[[1]]) > 0){
 }
 ```
 
+Optionally, the data set parsed from BEST corpus used in training this tokenizer is available in R's RDS format at [train](https://github.com/pichaio/thainltk/tree/master/data-raw/besttrain.RDS), [val](https://github.com/pichaio/thainltk/tree/master/data-raw/bestval.RDS), and [test](https://github.com/pichaio/thainltk/tree/master/data-raw/besttest.RDS). 
+
 ## Dictionary
 
 Dictionary is an important part of NLP. It is probably used in many of Thai tokenization algorithms. This tokenizer makes use of dictionaries to create parts of the features. One of the dictionaries used is Lexitron. This package also makes available a private function that can parse Lexitron corpus. The function is called thainltk:::parseLexitron. The full Lexitron corpus that contains much more than words can be downloaded from the [Lexitron website](http://lexitron.nectec.or.th/2009_1/). A free registration is required though.
