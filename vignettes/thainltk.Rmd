@@ -1,0 +1,91 @@
+---
+title: "thainltk"
+author: "Pichai Ongvasith"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{thainltk}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This package is intended to provide utility functions for Thai NLP. The first release includes a feature-based Thai word tokenizer, trained on publicly available BEST corpus. Additional functions may be added to later releases. This vignette will focus on the tokenizer.
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## The Tokenizer
+
+The tokenizer can be obtained from the factory function thaiTokenizer(). It accepts one parameter 'skipSpace'. If set to true, which is the default, the obtained tokenizer will filter out whitespaces before returning the character vector. This behavior should be desirable in common use cases. 
+
+```{r}
+library(thainltk)
+tt <- thaiTokenizer()
+tt('ทดสอบการแบ่งคำภาษาไทย')
+```
+
+When multiple strings were supplied through a character vector of length more than one, the strings will be concatenated (pasted) with a new line character('\\n'), and tokenized. This behavior is designed to work with the readLines function. To tokenize multiple strings separately, use the usual lapply or related functions. 
+
+```{r}
+lines <- c('บรรทัดที่ 1', 'บรรทัดที่ 2')
+tt(lines)
+lapply(lines, tt)
+```
+
+The tokenizer uses a feature-based, discriminative approach. The used features do not include handling of different kinds of special strings, such as URL, emails, date time, etc. So the tokenizer may not handle those type of strings well. English alphabets are abstracted to one character class. The tokenizer should split English text at whitespace, but this is not guaranteed. As such, preprocessing of input text may be needed when the input text contains many non-Thai tokens. Otherwise, the tokenizer should handle normal Thai text without the need for preprocessing.
+
+```{r}
+tt('ประโยคที่มีEnglishและไทยปนกัน')
+```
+
+## Sample Documents from BEST Corpus
+
+This package also makes the sample documents in the BEST corpus available through the sbest data set. Since CRAN discourages usage of UTF-8 in the dataset for portability reason, the texts were unicode-escaped. To obtain the unescaped texts, call the function unescapeSbest without parameter to get the data set. The data set is a VCorpus object containing AnnotatedPlainTextDocuments. So the library 'tm' and 'NLP' are required.
+
+```{r}
+library(tm)
+sbest <- unencodeSbest()
+substr(sbest[[1]]$content, 1, 50)
+words(sbest[[1]])[1:10]
+```
+
+The sections below are intended for advanced users. Functions described below are intended for internal use and are not guaranteed to be available in future releases. However, the documentation is provided here for those who wants to use the functions interactively and obtain the results.
+
+## About the Tokenizer
+
+Unlike English, Thai text doesn't have clear word boundaries, as all words in one sentence are concatenated together without a space between each pair of consecutive words. In addition, compound words make the word tokenization task more difficult as the boundaries may depend on context. Thai word tokenization, also called Thai word segmentation, was an active research topic within Thai NLP communities during the past three decades.
+
+In 2009 and 2010, the Thai National Electronics and Computer Technology Center launched BEST Thai word segmentation competitions, and made available a rich corpus, containing about 500 documents with over 20 millions manually segmented words. This might have been the first time that performance of different algorithms were compared on the same ground. The winning models reached the F1 measure of around 0.96~0.97. The number seems to be the new benchmark of Thai word tokenizers.
+
+The tokenizer in this package was trained on the BEST corpus. The estimated F1 measure is around 0.978. The estimation was done on a holdout test set of 126 documents. Although the performance number cannot be compared directly with those of winning models, the tokenizer in this package should be competitive with other modern tokenizers.
+
+The algorithm behind the tokenizer is a linear SVM. More information can be obtained from the help of thaiTokenizer function.
+
+## Parsing BEST Corpus
+
+BEST Corpus is publicly available under Creative Common licensing. See 'sbest' documentation for more information. The functions that help parsing the original BEST documents are made available as private functions. To parse a single document, use BESTDocument. The arguments fileName will be used as the document id, and category will be added to meta data. The category will probably be useful in text classification task. To parse all files in a directory, use BESTCorpus.
+
+```{r}
+filePath <- system.file('extdata', 'news_00001.txt.gz', package = 'thainltk')
+if (nchar(filePath[[1]]) > 0){
+  f <- gzfile(filePath[[1]])
+  d <- thainltk:::BESTDocument(f, 
+                              fileName = 'news_00001.txt', category = 'news', 
+                              encoding = 'UTF-8')
+  close(f)
+  words(d)[1:20]
+}
+```
+
+## Dictionary
+
+Dictionary is an important part of NLP. It is probably used in many of Thai tokenization algorithms. This tokenizer makes use of dictionaries to create parts of the features. One of the dictionaries used is Lexitron. This package also makes available a private function that can parse Lexitron corpus. The function is called thainltk:::parseLexitron. The full Lexitron corpus that contains much more than words can be downloaded from the [Lexitron website](http://lexitron.nectec.or.th/2009_1/). A free registration is required though.
+
+```{r}
+filePath <- system.file('extdata', 'telex_example.txt.gz', package = 'thainltk')
+if (nchar(filePath[[1]]) > 0){
+  ldict <- thainltk:::parseLexitron(filePath)
+  str(ldict)
+}
+```

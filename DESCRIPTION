@@ -1,0 +1,21 @@
+Package: thainltk
+Type: Package
+Title: Thai National Language Toolkit
+Version: 0.2.1
+Author: person("Pichai", "Ongvasith", email = "pichai@gmail.com", role = c("aut", "cre"))
+Maintainer: Pichai Ongvasith <pichai@gmail.com>
+Description: Basic functions for Thai NLP. The first release includes a feature-based Thai word tokenizer, trained on publicly available BEST corpus.
+License: CC0
+LazyData: TRUE
+Imports:
+  tm,
+  NLP,
+  Matrix,
+  stringi,
+  parallel
+Depends:
+  R (>= 3.1.0)
+Encoding: UTF-8
+Suggests: testthat,
+    knitr
+VignetteBuilder: knitr
