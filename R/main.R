@@ -1,5 +1,7 @@
 
-#' Obtain the Thai Tokenizer
+#' Thai Tokenizer
+#'
+#' Obtain a Thai tokenizer closure.
 #'
 #' The tokenizer is a closure that takes character as input and return a
 #' character vector containing word tokens. If the input is a character vector,
@@ -11,12 +13,14 @@
 #'
 #' The model takes around 100,000 input features. The features can be grouped
 #' into 3 different types.
-#' 1. Possible words at and after the current position.
-#' 2. Character bigrams at and after the current positions.
-#' 3. Cluster id of the current character, 3 character before and 3 character
+#' \enumerate{
+#' \item Possible words at and after the current position.
+#' \item Character bigrams at and after the current positions.
+#' \item Cluster id of the current character, 3 character before and 3 character
 #' after the current position. The clusters were discovered by an hierarchical
 #' clustering method. The similarity is calculated from statistics of characters
 #' near begin and end of words from Lexitron dictionary
+#' }
 #'
 #' The performance of this tokenizer should be competitive with other recent models.
 #' The F1 measure on a holdout test set is around 0.978.
@@ -29,7 +33,7 @@
 #'
 #' @examples
 #' tok <- thaiTokenizer()
-#' tok('ทดสอบการแบ่งคำภาษาไทย')
+#' tok('thai text to be tokenized')
 thaiTokenizer <- function(skipSpace = T){
   force(skipSpace)
   svmtokenizer <- function(s){

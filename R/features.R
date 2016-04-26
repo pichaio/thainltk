@@ -1,6 +1,7 @@
-#' Create an ngram data frame
+#' Character ngram (internal)
 #'
-#' Note: Intended to be used internally.
+#' Create character ngram data frame from input string.
+#'
 #' Ngram is a popular input model for NLP. For this word tokenization problem, n-gram
 #' model would be n characters before and n characters after a particular character
 #' that we want to predict a word end. For example, a 3-gram input model will have 7 columns.
@@ -19,6 +20,8 @@
 #'
 #' This is an S3 method and the default implementation is to convert the input to character,
 #' using as.character method. So it will fail if the input cannot be converted to character.
+#'
+#' Note: Intended to be used internally.
 #'
 #' @param x input
 #' @param mapper map character to character, possibly to reduce the number of unique values
@@ -57,13 +60,16 @@ ngram.VCorpus <- function(x, mapper = NULL, n = 3){
 }
 
 
-#' Map Thai character using a list
+#' Map characters using a list (internal)
 #'
-#' Note: Private function. Intended to be used internally.
+#' Convert characters to character class specified by a list.
+#'
 #' This function convert non-thai character to A for alphabets, D for digits, and
 #' P for punctuations. Then it uses the specified list to map characters. Then to catch
 #' other remaining characters, it converts non-alphabets, except space to P. Spaces
 #' are left as is, unless they are supplied in the cpm map.
+#'
+#' Note: Private function. Intended to be used internally.
 #'
 #' @param x character
 #' @param cpm list containing the mapping

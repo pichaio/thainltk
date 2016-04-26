@@ -1,14 +1,16 @@
 
 
-#' Dictionary trie
+#' Dictionary trie (internal)
 #'
-#' Note: Private function. Intended to be used internally.
+#' Create a dictionary trie.
+#'
 #' The dictionary trie is useful when querying prefix matching.
 #' This dictionary can help creating expressive features. For example, it can tell
 #' whether a particular sequence of character is a possible word begining. When the
 #' dictionary contains reversed words, it can tell whether a particular sequence is
 #' a possible word end.
 #'
+#' Note: Private function. Intended to be used internally.
 #'
 #' @return the dictionary
 #'

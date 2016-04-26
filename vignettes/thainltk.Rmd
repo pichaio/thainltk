@@ -45,7 +45,7 @@ This package also makes the sample documents in the BEST corpus available throug
 
 ```{r}
 library(tm)
-sbest <- unencodeSbest()
+sbest <- unescapeSbest()
 substr(sbest[[1]]$content, 1, 50)
 words(sbest[[1]])[1:10]
 ```

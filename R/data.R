@@ -1,8 +1,8 @@
-#' Small BEST Corpus
+#' Sample documents from BEST corpus
 #'
-#' Three sample documents from BEST corpus. For portability reason, this sbest
-#' dataset is unicode-escaped. To use the dataset, unencode it by calling
-#' \code{\link{unencodeSbest}} first.
+#' Three sample documents from BEST corpus. Need to be unencoded before use. See
+#' details.
+#'
 #'
 #' BEST, Benchmark for Enhancing the Standard of Thai Language Processing,
 #' corpus is a collection of texts used for NLP processing competitions. This
@@ -17,6 +17,10 @@
 #' unzipped, \code{\link{BESTDocument}} and \code{\link{BESTCorpus}} can be used
 #' to parse the documents and obtain VCorpus object.
 #'
+#' For portability reason, this sbest dataset is unicode-escaped. To use the
+#' dataset, unescape it by calling \code{\link{unescapeSbest}}, instead of
+#' calling data(sbest).
+#'
 #' @format a tm::VCorpus object. The document is a
 #'   NLP::AnnotatedPlainTextDocument
 #'
@@ -24,10 +28,9 @@
 "sbest"
 
 
-#' Unencode sbest data set
+#' Unescape sbest dataset
 #'
-#' For portability reason, the sbest dataset is unicode-escaped. To use the
-#' dataset, it needs to be unencoded by this function first.
+#' Unescape the sbest dataset.
 #'
 #'
 #' @return tm::VCorpus of AnnotatedPlainTextDocument
@@ -35,8 +38,8 @@
 #'
 #' @examples
 #' library(tm)
-#' sbest <- unencodeSbest()
-unencodeSbest <- function(){
+#' sbest <- unescapeSbest()
+unescapeSbest <- function(){
   stopifnot(requireNamespace('tm'))
   data('sbest', envir = environment())
   for (i in seq_along(sbest)){

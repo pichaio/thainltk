@@ -1,9 +1,8 @@
-#' thainltk: Thai National Language Toolkit
+#' Thai National Language Toolkit
 #'
 #' This package is intended to provide utility functions for Thai NLP. The first
 #' release includes an SVM-based Thai word tokenizer, trained on publicly
 #' available BEST corpus.
-#'
 #'
 #' This product is created by the adaptation of LEXiTRON developed by NECTEC
 #' \url{http://www.nectec.or.th/}

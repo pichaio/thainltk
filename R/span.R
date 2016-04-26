@@ -1,4 +1,8 @@
+#' All possible words (internal)
+#'
 #' Find all possible words at each character position in string
+#'
+#' Note: Internal function
 #'
 #' @param str input string
 #' @param trie dictionary trie

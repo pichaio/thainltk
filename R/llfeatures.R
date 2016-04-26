@@ -1,10 +1,12 @@
 
-#' Convert string to unigram and bigram feature id
+#' Unigram and bigram feature id (internal)
 #'
-#' Intended for internal use.
-#' convert string to unigrams and bigrams of characters. Then map to feature Id.
+#' Convert string to unigrams and bigrams of characters. Then map them to feature Id.
+#'
 #' At any text position, 4 features are created. Those are unigram and bigram at the
 #' position (the bigram starts at the previous position) and those after the position.
+#'
+#' Noet: Intended for internal use.
 #'
 #' @param s string to be converted
 #' @param ngrams list of unigrams and bigrams. The position of each one will be used to calculate the feature ids.

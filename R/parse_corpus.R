@@ -1,14 +1,17 @@
 
 
-#' Create a TokenizedDocument from a file from BEST Corpus
+#' Parse document from BEST corpus (internal)
 #'
-#' Note: Private function. Intended to be used internally.
+#' Parse a text file from BEST corpus to AnnotatedPlainTextDocument.
+#'
 #' Each text file from BEST corpus contains manually segmented words, seperated by pipe ('|').
 #' Sentence boundaries can be identified by a single space between two pipes.
 #' Line ends may or may not be sentence boundaries. Some of special words were tagged by xml-style tags, such as <NE>, <AB>, etc.
 #'
 #' The returned AnnotatedPlainTextDocument contains annotations with 'word', 'NE' and 'AB' types. See
 #' NLP::Annotation, and annotations for more information
+#'
+#' Note: Private function. Intended to be used internally.
 #'
 #' @param con a connection object or a character string.
 #' @param fileName will become the id of document
@@ -60,12 +63,15 @@ BESTDocument <- function(con, fileName, category, sep="|", ignores=character(0),
   at
 }
 
+#' Parse multiple documents from BEST corpus (internal)
+#'
 #' Parse a folder containing text files from BEST corpus
 #'
-#' Note: Private function. Intended to be used internally.
 #' Text files in BEST corpus are organized into 4 folders, based on their sources.
 #' This function reads all text files in the specified folder and create a corpus object.
 #' The corpus object is an S3 object defined in tm package.
+#'
+#' Note: Private function. Intended to be used internally.
 #'
 #' @param dirname input directory name
 #' @param category source of files, should be one of article, news, novel, and encyclopedia.
@@ -95,13 +101,17 @@ BESTCorpus <- function(dirname, category, ...){
 
 
 
-#' Parse Lexitron document
+#' Parse Lexitron document (internal)
 #'
-#' Note: Private function. Intended to be used internally.
+#' Parse a document from Lexitron corpus.
+#'
 #' The disributed file doesn't strictly conform to XML standards. So standard
 #' XML parser may not work well with the file. Two issues found are: 1. no root
 #' node, and 2. no special character escaping, in particular &, <, and > were
 #' used as is.
+#'
+#' Note: Private function. Intended to be used internally.
+#'
 #' @param filename lexitron file
 #'
 #' @return a data frame, each row for a word in the dictionary and each column

@@ -1,6 +1,6 @@
 context('sbest dataset')
 
-sbest <- unencodeSbest()
+sbest <- unescapeSbest()
 
 test_that('the number of document is 3',{
   expect_equal(length(sbest), 3)

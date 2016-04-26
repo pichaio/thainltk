@@ -1,10 +1,13 @@
-#' Partial SVM cost and gradients function
+#' Partial SVM cost and gradients (internal)
 #'
-#' Intended to be used internally
+#' Calculate partial SVM cost and gradients.
+#'
 #' Linear SVM cost is comprised of the L2-norm of W and empirical loss.
 #' This function calculates only the empirical loss. This loss then can
 #' be calculated on clusters, each holding a different segment of training
 #' data. It then can be aggregated at the master node.
+#'
+#' Intended to be used internally
 #'
 #' @param theta list of parameters. Expect the first element to be a
 #' list, having w and b as elements.
@@ -27,11 +30,15 @@ partialSvmCost <- function(theta, data, labels, C){
   list(cost = cost, grad = grad)
 }
 
-#' Parallel SVM
+#' Parallel SVM (internal)
+#'
+#' Prepare cost and gradients functions for optimizers for parallel computing.
 #'
 #' Prepare gradient and cost functions, to be passed to an optimizer. It sends
 #' parameters to cluster nodes and recieve partial cost and gradients back. It
 #' then calculates total cost and gradients.
+#'
+#' Note: for internal use
 #'
 #' @param cl clusters
 #' @param C SVM regularized parameter
@@ -65,12 +72,15 @@ parSvm <- function(cl, C){
   list(cost = parCost, grad = parGrad)
 }
 
-#' Prepare Clusters for Parallel SVM Training
+#' Prepare clusters for parallel SVM training (internal)
+#'
+#' Load required library and upload segmented data to clusters.
 #'
 #' The input matrix and labels will be divided evenly and shipped to clusters.
 #' Appropriate libraries will be loaded and the partial cost function will be
 #' defined.
 #'
+#' Note : for internal use.
 #'
 #' @param cl clusters, perhaps created by makeClusters
 #' @param data matrix p by n. p is the number of features and n is the
